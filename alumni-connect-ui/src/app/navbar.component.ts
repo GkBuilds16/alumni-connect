@@ -4,7 +4,9 @@ import { CommonModule } from '@angular/common';
 
 import {
   Router,
-  RouterLink
+  RouterLink,
+  NavigationStart,
+  NavigationEnd
 } from '@angular/router';
 
 import { getRoleFromToken }
@@ -66,12 +68,11 @@ from './jwt.util';
 
     <!-- EVENTS -->
 
-   <button
-  (click)="navigateTo('/events')"
+  <a
+  routerLink="/events"
   class="nav-btn">
   Events
-</button>
-
+</a>
     <!-- POST EVENT -->
 
     <button
@@ -407,11 +408,23 @@ from './jwt.util';
 
 export class NavbarComponent {
 
-  constructor(
+constructor(
+  private router: Router
+) {
 
-    private router: Router
+  this.router.events.subscribe(event => {
 
-  ) {}
+    if (event instanceof NavigationStart) {
+      console.log('START:', event.url);
+    }
+
+    if (event instanceof NavigationEnd) {
+      console.log('END:', event.urlAfterRedirects);
+    }
+
+  });
+
+}
 
   // =====================================
   // LOGIN CHECK
@@ -434,9 +447,22 @@ export class NavbarComponent {
       === 'ADMIN';
   }
 
-  navigateTo(url: string): void {
+ navigateTo(url: string): void {
 
-  this.router.navigateByUrl(url);
+  console.log('NAVIGATING TO:', url);
+
+  this.router.navigateByUrl(url)
+    .then(result => {
+
+      console.log('RESULT:', result);
+      console.log('CURRENT URL:', this.router.url);
+
+    })
+    .catch(error => {
+
+      console.error('NAVIGATION ERROR:', error);
+
+    });
 }
   // =====================================
   // ALUMNI CHECK

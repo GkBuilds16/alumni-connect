@@ -1,9 +1,10 @@
+
 import {
-
   Component,
-
-  OnInit
-
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewChecked
 } from '@angular/core';
 
 import {
@@ -61,7 +62,9 @@ from './chat.service';
     </div>
 
     <!-- MESSAGES -->
-    <div class="messages">
+    <div
+  class="messages"
+  #messagesContainer>
 
       <div
 
@@ -181,7 +184,27 @@ from './chat.service';
 
   padding: 24px;
 
-  background: #f9fafb;
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+
+  background: #f8fafc;
+
+  scroll-behavior: smooth;
+}
+
+.messages::-webkit-scrollbar {
+
+  width: 6px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+
+  background: #cbd5e1;
+
+  border-radius: 999px;
 }
 
 .message-wrapper {
@@ -198,23 +221,30 @@ from './chat.service';
 
 .message {
 
-  background: white;
-
   padding: 14px 18px;
 
-  border-radius: 18px;
+  border-radius: 20px;
 
-  max-width: 70%;
+  max-width: 65%;
+
+  background: white;
 
   box-shadow:
-    0 2px 8px rgba(0,0,0,0.05);
+    0 4px 12px rgba(0,0,0,0.06);
 
   word-break: break-word;
+
+  line-height: 1.5;
 }
 
 .mine {
 
-  background: #2563eb;
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5
+    );
 
   color: white;
 }
@@ -270,7 +300,7 @@ from './chat.service';
 })
 
 export class ChatComponent
-implements OnInit {
+implements OnInit, AfterViewChecked {
 
   senderEmail = '';
 
@@ -281,7 +311,9 @@ implements OnInit {
   messages: any[] = [];
 
   socketConnected = false;
-
+  private shouldScroll = false;
+@ViewChild('messagesContainer')
+messagesContainer!: ElementRef;
   constructor(
 
     private route: ActivatedRoute,
@@ -376,13 +408,15 @@ implements OnInit {
 
                   m => m.id === message.id
                 );
+if (!exists) {
 
-              if (!exists) {
+  this.messages = [
+    ...this.messages,
+    message
+  ];
 
-                this.messages.push(
-                  message
-                );
-              }
+  this.shouldScroll = true;
+}
             }
           );
         });
@@ -390,6 +424,35 @@ implements OnInit {
     });
   }
 
+  ngAfterViewChecked(): void {
+
+  if (this.shouldScroll) {
+
+    this.scrollToBottom();
+
+    this.shouldScroll = false;
+  }
+}
+
+  private scrollToBottom(): void {
+
+  setTimeout(() => {
+
+    if (this.messagesContainer) {
+
+      this.messagesContainer
+        .nativeElement
+        .scrollTop =
+
+        this.messagesContainer
+          .nativeElement
+          .scrollHeight;
+
+    }
+
+  }, 50);
+
+}
   // =====================================
   // LOAD HISTORY
   // =====================================
@@ -420,15 +483,15 @@ implements OnInit {
 
     .subscribe({
 
-      next: (res) => {
+   next: (res) => {
 
-        console.log(
-          'CHAT HISTORY:',
-          res
-        );
+  console.log('CHAT HISTORY COUNT:', res.length);
+  console.log('CHAT HISTORY:', res);
 
-        this.messages = res;
-      },
+  this.messages = [...res];
+
+  this.shouldScroll = true;
+},
 
       error: (err) => {
 

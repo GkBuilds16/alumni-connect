@@ -236,7 +236,12 @@ import {
 `,
 
   styles: [`
-
+*{
+  font-family:
+    Inter,
+    "Segoe UI",
+    sans-serif;
+}
 * {
 
   box-sizing: border-box;
@@ -250,7 +255,7 @@ import {
 
   display: grid;
 
-  grid-template-columns: 1.2fr 1fr;
+ grid-template-columns:55% 45%;
 
   background: #f3f4f6;
 }
@@ -261,13 +266,13 @@ import {
 
   position: relative;
 
-  background:
-    linear-gradient(
-      135deg,
-      #2563eb,
-      #4f46e5,
-      #7c3aed
-    );
+ background:
+linear-gradient(
+135deg,
+#0f172a,
+#1e293b,
+#2563eb
+);
 
   display: flex;
 
@@ -320,12 +325,11 @@ import {
 }
 
 .brand-title {
+  font-size:60px;
 
-  font-size: 64px;
+  font-weight:800;
 
-  line-height: 1.1;
-
-  font-weight: bold;
+  line-height:1.05;
 
   margin-bottom: 24px;
 }
@@ -347,61 +351,97 @@ import {
 
   margin-bottom: 40px;
 }
-
 .stats {
 
   display: flex;
 
-  gap: 20px;
+  gap: 16px;
 
   flex-wrap: wrap;
+
+  margin-top: 40px;
 }
 
 .stat-card {
 
-  background: rgba(255,255,255,0.12);
+  width: 170px;
 
-  padding: 22px;
+  min-height: 140px;
 
-  border-radius: 22px;
+  background: rgba(255,255,255,.08);
 
-  min-width: 150px;
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,.15);
+
+  border-radius: 24px;
+
+  padding: 24px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  transition: all .3s ease;
+}
+
+.stat-card:hover {
+
+  transform: translateY(-6px);
+
+  background: rgba(255,255,255,.12);
+
+  border-color: rgba(255,255,255,.25);
 }
 
 .stat-card h2 {
 
-  font-size: 32px;
+  font-size: 36px;
 
-  margin-bottom: 8px;
+  font-weight: 800;
+
+  margin: 0 0 10px 0;
+
+  color: white;
 }
 
+.stat-card p {
+
+  margin: 0;
+
+  font-size: 14px;
+
+  color: rgba(255,255,255,.85);
+
+  line-height: 1.5;
+}
 /* RIGHT */
 
-.right-section {
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  padding: 40px;
+.right-section{
+  background:#f8fafc;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.login-card {
+.login-card{
 
-  width: 100%;
+  width:100%;
 
-  max-width: 450px;
+  max-width:520px;
 
-  background: white;
+  background:white;
 
-  border-radius: 32px;
+  border-radius:32px;
 
-  padding: 40px;
+  padding:48px;
 
   box-shadow:
-    0 10px 30px rgba(0,0,0,0.08);
+    0 20px 60px rgba(15,23,42,.08);
+
+  border:1px solid #e5e7eb;
 }
 
 /* HEADER */
@@ -413,25 +453,61 @@ import {
   margin-bottom: 30px;
 }
 
-.role-icon {
+.role-icon{
 
-  width: 80px;
+  width:80px;
 
-  height: 80px;
+  height:80px;
 
-  margin: 0 auto 20px;
+  margin:0 auto 20px;
 
-  border-radius: 24px;
+  border-radius:24px;
 
-  background: #eff6ff;
+  background:#eff6ff;
 
-  display: flex;
+  display:flex;
 
-  align-items: center;
+  align-items:center;
 
-  justify-content: center;
+  justify-content:center;
 
-  font-size: 36px;
+  font-size:36px;
+
+  position:relative;
+
+  overflow:hidden;
+}
+
+.role-icon::after{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  background:
+  linear-gradient(
+    135deg,
+    transparent,
+    rgba(255,255,255,.4)
+  );
+}
+
+.role-icon::after{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  background:
+  linear-gradient(
+    135deg,
+    transparent,
+    rgba(255,255,255,.4)
+  );
 }
 
 .login-header h2 {
@@ -497,12 +573,19 @@ import {
 
   width: 100%;
 
-  background:
-    linear-gradient(
-      to right,
-      #2563eb,
-      #4f46e5
-    );
+ background:
+linear-gradient(
+135deg,
+#2563eb,
+#1d4ed8
+);
+height:58px;
+
+letter-spacing:.3px;
+
+box-shadow:
+0 10px 25px
+rgba(37,99,235,.25);
 
   color: white;
 
@@ -629,7 +712,7 @@ import {
 
   .login-card {
 
-    padding: 30px;
+    padding: 48px;
   }
 }
 
